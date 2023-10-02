@@ -1,34 +1,23 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:training_project/Core/Utils/assets_data.dart';
+import 'Core/Utils/app_router.dart';
 
 void main()
 {
-  runApp(const TrainingProject());
+  runApp(const QrCodeApp());
 }
 
-class TrainingProject extends StatelessWidget
+class QrCodeApp extends StatelessWidget
 {
-  const TrainingProject({super.key});
+  const QrCodeApp({super.key});
 
   @override
   Widget build(BuildContext context)
   {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: SizedBox(
-            height: 100,
-            width: 200,
-            child: BarcodeWidget(
-              data: '',
-              barcode: Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
-              // drawText: false,
-            ),
-          ),
-        ),
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: AppRouter.router,
+      theme: ThemeData(fontFamily: AssetsData.poppinsFont),
     );
   }
 }
-
-
