@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_project/Core/Utils/assets_data.dart';
+import 'package:training_project/Features/Home/Presentation/Manager/Cubits/Home_Cubit/home_cubit.dart';
 import 'Core/Utils/app_router.dart';
 
 void main()
@@ -14,10 +16,13 @@ class QrCodeApp extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter.router,
-      theme: ThemeData(fontFamily: AssetsData.poppinsFont),
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppRouter.router,
+        theme: ThemeData(fontFamily: AssetsData.poppinsFont),
+      ),
     );
   }
 }

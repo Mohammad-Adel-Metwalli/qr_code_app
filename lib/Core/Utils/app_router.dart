@@ -20,10 +20,7 @@ abstract class AppRouter
                   child: const HomeView(),
                   transitionsBuilder: (context, animation, secondaryAnimation, child)
                   {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
+                    return FadeTransition(opacity: animation, child: child);
                   }
               );
             }

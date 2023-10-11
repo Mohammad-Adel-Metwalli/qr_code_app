@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_project/Core/Utils/constant_colors.dart';
+import 'Widgets/custom_floating_action_button.dart';
 import 'Widgets/home_view_body.dart';
 
 class HomeView extends StatefulWidget
@@ -17,8 +18,9 @@ class _HomeViewState extends State<HomeView>
   {
     return const SafeArea(
         child: Scaffold(
-          backgroundColor: ConstantColors.teaGreen,
           body: HomeViewBody(),
+          backgroundColor: ConstantColors.teaGreen,
+          floatingActionButton: CustomFloatingActionButton(),
         )
     );
   }

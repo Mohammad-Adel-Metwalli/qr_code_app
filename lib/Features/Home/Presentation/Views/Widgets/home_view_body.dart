@@ -1,21 +1,26 @@
 import 'dart:io';
 import 'dart:ui';
 import 'dart:async';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_project/Features/Home/Presentation/Views/Widgets/qr_code_image.dart';
+import 'package:training_project/Features/Home/Presentation/Views/Widgets/share_icon.dart';
+import '../../Manager/Cubits/Home_Cubit/home_cubit.dart';
+import 'animated_snack_bar_body.dart';
+import 'app_icon.dart';
 import 'custom_app_bar.dart';
 import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import '../../../../../Core/Utils/constant_colors.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeViewBody extends StatefulWidget
 {
-  const HomeViewBody({
-    super.key,
-  });
+  const HomeViewBody({super.key,});
+
+  static String fileName1 = '';
 
   @override
   State<HomeViewBody> createState() => _HomeViewBodyState();
@@ -23,18 +28,19 @@ class HomeViewBody extends StatefulWidget
 
 class _HomeViewBodyState extends State<HomeViewBody>
 {
-  final String facebookProfileLink = 'https://www.facebook.com/profile.php?id=100048932493274';
   final GlobalKey _qrKey = GlobalKey();
   bool dirExists = false;
-  dynamic externalDir = '/storage/emulated/0/Download/qr_code';
+  dynamic externalDir = '/storage/emulated/0/Pictures';
+  String fileName = HomeViewBody.fileName1;
 
   Future<void> shareQrCode() async
   {
     try
     {
-      RenderRepaintBoundary boundary = _qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary = _qrKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
       var image = await boundary.toImage(pixelRatio: 3.0);
-      
+
       final whitePaint = Paint()..color = ConstantColors.babyPowder;
       final recorder = PictureRecorder();
       final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, image.width.toDouble() - 20, image.height.toDouble() - 20));
@@ -47,17 +53,16 @@ class _HomeViewBodyState extends State<HomeViewBody>
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 
       //Check for duplicate file name to avoid Override
-      String fileName = 'qr_code';
       int i = 1;
-      while(await File('$externalDir/$fileName.png').exists())
+      while (await File('$externalDir/$fileName.png').exists())
       {
-        fileName = 'qr_code_$i';
+        fileName = '$fileName($i)';
         i++;
       }
 
       //Check if Directory Path exists or not
       dirExists = await File(externalDir).exists();
-      if(!dirExists)
+      if (!dirExists)
       {
         await Directory(externalDir).create(recursive: true);
         dirExists = true;
@@ -66,24 +71,32 @@ class _HomeViewBodyState extends State<HomeViewBody>
       var status = await Permission.storage.status;
       await Permission.storage.request();
 
-      if(status.isGranted)
+      if (status.isGranted)
       {
         final file = await File('$externalDir/$fileName.png').create();
         await file.writeAsBytes(pngBytes);
         await Share.shareFiles([file.path], text: 'Share QR Code');
       }
 
-      if(!mounted)return;
-      const snackBar = SnackBar(content: Text('QR Code saved to gallery'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      if (!mounted) return;
+      AnimatedSnackBar(
+          builder: (context)
+          {
+            return const AnimatedSnackBarBody(
+                message: 'QR Code has been saved to Gallery');
+          }
+      ).show(context);
     }
 
-    catch(e)
+    catch (e)
     {
-      if(!mounted)return;
-      const snackBar = SnackBar(content: Text('Something went wrong!'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      debugPrint(e.toString());
+      if (!mounted) return;
+      AnimatedSnackBar(
+          builder: (context)
+          {
+            return const AnimatedSnackBarBody(message: 'Something went wrong');
+          }
+      ).show(context);
     }
   }
 
@@ -94,53 +107,32 @@ class _HomeViewBodyState extends State<HomeViewBody>
       children: [
         const CustomAppBar(),
 
-        Padding(
-          padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.250),
-          child: Column(
-            children: [
-              Stack(
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state)
+          {
+            String? qrLink = BlocProvider.of<HomeCubit>(context).linkOfQr;
+            String? nameImage = BlocProvider.of<HomeCubit>(context).nameOfImage;
+            Color? qrColor = BlocProvider.of<HomeCubit>(context).colorOfQrCode;
+
+            debugPrint('$qrColor\n$nameImage\n$qrLink');
+
+            return Padding(
+              padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.2),
+              child: Column(
                 children: [
-                  Center(
-                    child: RepaintBoundary(
-                      key: _qrKey,
-                      child: QrImageView(
-                        data: facebookProfileLink,
-                        version: QrVersions.auto,
-                        size: 200,
-                        gapless: true,
-                      ),
-                    ),
-                  ),
+                  Stack(
+                    children: [
+                      QrCodeImage(qrKey: _qrKey, linkOfQr: qrLink),
 
-                  Positioned(
-                    top: 150,
-                    left: 260,
-                    child: InkWell(
-                        onTap: shareQrCode,
-                        customBorder: const CircleBorder(),
-                        child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: ConstantColors.babyPowder),
-                            child: const Center(child: Icon(FontAwesomeIcons.shareFromSquare, color: ConstantColors.luxuryBlue))
-                        )
-                    )
-                  ),
+                      qrLink != null ? ShareIcon(shareQrCode: shareQrCode) : const SizedBox.shrink(),
 
-                  Positioned(
-                      top: 65,
-                      left: 172,
-                      child: Container(
-                          height: 70,
-                          width: 70,
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: ConstantColors.babyPowder),
-                          child: const Icon(Icons.facebook_rounded, color: ConstantColors.luxuryBlue, size: 68)
-                      )
+                      qrColor != null ? AppIcon(qrColor: qrColor) : const SizedBox.shrink()
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
+              ),
+            );
+          },
         )
       ],
     );
