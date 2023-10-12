@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="training_project"
+        android:label="QR Code generator"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

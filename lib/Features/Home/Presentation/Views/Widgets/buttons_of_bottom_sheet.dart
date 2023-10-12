@@ -7,9 +7,10 @@ import 'create_qr_code.dart';
 class ButtonsBottomSheet extends StatelessWidget
 {
   const ButtonsBottomSheet({
-    super.key, required this.buttonText,
+    super.key, required this.buttonText, required this.formKey,
   });
   final String buttonText;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context)
@@ -17,16 +18,24 @@ class ButtonsBottomSheet extends StatelessWidget
     return InkWell(
       onTap: ()
       {
-        if(buttonText == 'Cancel') {}
+        if(buttonText == 'Cancel')
+        {
+          CreateQrCode.imageText.clear();
+          CreateQrCode.linkText.clear();
+          Navigator.pop(context);
+        }
 
         else
         {
-          BlocProvider.of<HomeCubit>(context).generateQrCode();
-        }
+          if (formKey.currentState!.validate())
+          {
+            BlocProvider.of<HomeCubit>(context).generateQrCode();
 
-        CreateQrCode.imageText.clear();
-        CreateQrCode.linkText.clear();
-        Navigator.pop(context);
+            CreateQrCode.imageText.clear();
+            CreateQrCode.linkText.clear();
+            Navigator.pop(context);
+          }
+        }
       },
 
       child: Container(

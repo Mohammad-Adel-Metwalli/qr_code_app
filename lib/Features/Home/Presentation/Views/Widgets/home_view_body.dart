@@ -32,6 +32,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
   bool dirExists = false;
   dynamic externalDir = '/storage/emulated/0/Pictures';
   String fileName = HomeViewBody.fileName1;
+  String captionText = '';
 
   Future<void> shareQrCode() async
   {
@@ -75,15 +76,14 @@ class _HomeViewBodyState extends State<HomeViewBody>
       {
         final file = await File('$externalDir/$fileName.png').create();
         await file.writeAsBytes(pngBytes);
-        await Share.shareFiles([file.path], text: 'Share QR Code');
+        await Share.shareFiles([file.path], text: captionText);
       }
 
       if (!mounted) return;
       AnimatedSnackBar(
           builder: (context)
           {
-            return const AnimatedSnackBarBody(
-                message: 'QR Code has been saved to Gallery');
+            return const AnimatedSnackBarBody(message: 'QR Code has been saved to Gallery');
           }
       ).show(context);
     }
@@ -111,10 +111,8 @@ class _HomeViewBodyState extends State<HomeViewBody>
           builder: (context, state)
           {
             String? qrLink = BlocProvider.of<HomeCubit>(context).linkOfQr;
-            String? nameImage = BlocProvider.of<HomeCubit>(context).nameOfImage;
+            captionText = BlocProvider.of<HomeCubit>(context).nameOfImage!;
             Color? qrColor = BlocProvider.of<HomeCubit>(context).colorOfQrCode;
-
-            debugPrint('$qrColor\n$nameImage\n$qrLink');
 
             return Padding(
               padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.2),

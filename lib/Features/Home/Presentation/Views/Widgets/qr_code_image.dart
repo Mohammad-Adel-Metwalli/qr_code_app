@@ -21,7 +21,7 @@ class QrCodeImage extends StatelessWidget
         child: RepaintBoundary(
           key: _qrKey,
           child: QrImageView(
-            data: linkOfQr ?? '',
+            data: linkOfQr == null ? '' : (linkOfQr!.startsWith('+') ? 'wa.me/$linkOfQr' : linkOfQr!),
             eyeStyle: QrEyeStyle(color: QrCodeDetailsModel.qrCodeColor ?? Colors.black, eyeShape: QrEyeShape.square),
             version: QrVersions.auto,
             size: MediaQuery.sizeOf(context).height * 0.25,

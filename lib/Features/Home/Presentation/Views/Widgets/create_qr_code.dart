@@ -42,7 +42,7 @@ class _CreateQrCodeState extends State<CreateQrCode>
             SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
 
             BottomSheetLinkTextField(
-              textOfTheField: 'Link',
+              textOfTheField: 'Link / Phone number',
               textEditingController: CreateQrCode.linkText,
             ),
 
@@ -55,7 +55,7 @@ class _CreateQrCodeState extends State<CreateQrCode>
 
             SizedBox(height: MediaQuery.sizeOf(context).height * 0.04),
 
-            const BottomOfBottomSheet(),
+            BottomOfBottomSheet(formKey: formKey),
 
             SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
           ],
