@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:training_project/Core/Utils/constant_colors.dart';
 import 'package:training_project/Features/Home/Data/Models/qr_code_details_model.dart';
 
 class QrCodeImage extends StatelessWidget
@@ -22,7 +23,8 @@ class QrCodeImage extends StatelessWidget
           key: _qrKey,
           child: QrImageView(
             data: linkOfQr == null ? '' : (linkOfQr!.startsWith('+') ? 'wa.me/$linkOfQr' : linkOfQr!),
-            eyeStyle: QrEyeStyle(color: QrCodeDetailsModel.qrCodeColor ?? Colors.black, eyeShape: QrEyeShape.square),
+            eyeStyle: QrEyeStyle(color: QrCodeDetailsModel.qrCodeColor ?? ConstantColors.black, eyeShape: QrEyeShape.square),
+            dataModuleStyle: QrDataModuleStyle(color: QrCodeDetailsModel.qrCodeColor ?? ConstantColors.black, dataModuleShape: QrDataModuleShape.square),
             version: QrVersions.auto,
             size: MediaQuery.sizeOf(context).height * 0.25,
             gapless: true,

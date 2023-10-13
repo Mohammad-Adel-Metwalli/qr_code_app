@@ -21,7 +21,7 @@ class QrCodeApp extends StatelessWidget
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerConfig: AppRouter.router,
-        theme: ThemeData(fontFamily: AssetsData.poppinsFont),
+        theme: ThemeData(fontFamily: AssetsData.poppinsFont, useMaterial3: true),
       ),
     );
   }

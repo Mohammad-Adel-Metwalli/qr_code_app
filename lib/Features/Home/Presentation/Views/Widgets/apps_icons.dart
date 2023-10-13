@@ -7,7 +7,7 @@ class AppsIcons extends StatelessWidget
     super.key,
     required this.appIcon, required this.selectedIndex,
   });
-  final Widget appIcon;
+  final dynamic appIcon;
   final bool selectedIndex;
 
   @override
@@ -15,7 +15,7 @@ class AppsIcons extends StatelessWidget
   {
     return CircleAvatar(
         radius: MediaQuery.sizeOf(context).height * 0.045,
-        backgroundColor: selectedIndex ? ConstantColors.bronze : ConstantColors.babyPowder,
+        backgroundColor: selectedIndex ? ConstantColors.bronze: ConstantColors.babyPowder,
         child: CircleAvatar(
           backgroundColor: ConstantColors.babyPowder,
           radius: MediaQuery.sizeOf(context).height * 0.04,

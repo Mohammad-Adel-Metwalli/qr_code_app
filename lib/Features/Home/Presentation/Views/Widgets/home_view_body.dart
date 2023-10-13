@@ -111,7 +111,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
           builder: (context, state)
           {
             String? qrLink = BlocProvider.of<HomeCubit>(context).linkOfQr;
-            captionText = BlocProvider.of<HomeCubit>(context).nameOfImage!;
+            captionText = BlocProvider.of<HomeCubit>(context).nameOfImage ?? '';
             Color? qrColor = BlocProvider.of<HomeCubit>(context).colorOfQrCode;
 
             return Padding(
