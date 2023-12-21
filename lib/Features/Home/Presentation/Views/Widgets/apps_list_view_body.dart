@@ -30,8 +30,7 @@ class _AppsListViewBodyState extends State<AppsListViewBody>
 
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width * 0.016),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(100),
+            child: GestureDetector(
               onTap: ()
               {
                 isSelected = index;

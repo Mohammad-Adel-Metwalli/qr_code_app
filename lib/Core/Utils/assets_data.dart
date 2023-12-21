@@ -7,12 +7,13 @@ class AssetsData
 {
   static const String poppinsFont = 'Poppins';
   static Radius borderRadius = const Radius.circular(30);
+  static double sizeOfIconsChose = 45;
   static Map<String, Map<dynamic, Color>> appsList = {
-    'Facebook': {const Icon(FontAwesomeIcons.facebook, color: ConstantColors.luxuryBlue, size: 60): ConstantColors.luxuryBlue},
-    'LinkedIn': {const Icon(FontAwesomeIcons.linkedin, color: ConstantColors.cerulean, size: 50): ConstantColors.cerulean},
-    'GitHub': {const Icon(FontAwesomeIcons.github, color: ConstantColors.black, size: 60): ConstantColors.black},
-    'WhatsApp': {const Icon(FontAwesomeIcons.whatsapp, color: ConstantColors.green, size: 50): ConstantColors.green},
-    'Instagram': {const GradientIcon(FontAwesomeIcons.instagram, gradient: LinearGradient(colors: ConstantColors.instagramIconGradient), size: 50): ConstantColors.purpleRed}
+    'Facebook': {Icon(FontAwesomeIcons.facebook, color: ConstantColors.luxuryBlue, size: sizeOfIconsChose): ConstantColors.luxuryBlue},
+    'LinkedIn': {Icon(FontAwesomeIcons.linkedin, color: ConstantColors.cerulean, size: sizeOfIconsChose): ConstantColors.cerulean},
+    'GitHub': {Icon(FontAwesomeIcons.github, color: ConstantColors.black, size: sizeOfIconsChose): ConstantColors.black},
+    'WhatsApp': {Icon(FontAwesomeIcons.whatsapp, color: ConstantColors.green, size: sizeOfIconsChose): ConstantColors.green},
+    'Instagram': {GradientIcon(FontAwesomeIcons.instagram, gradient: const LinearGradient(colors: ConstantColors.instagramIconGradient), size: sizeOfIconsChose): ConstantColors.purpleRed}
   };
 
   static Map<Color, Widget> stackedIcons = {

@@ -26,11 +26,7 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   void navigateToHomeView()
   {
     Future.delayed(
-      const Duration(seconds: 5),
-        ()
-        {
-          GoRouter.of(context).replace('/homeView');
-        }
+      const Duration(seconds: 5), () => GoRouter.of(context).replace('/homeView')
     );
   }
 

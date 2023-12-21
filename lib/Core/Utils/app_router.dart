@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:training_project/Features/Home/Presentation/Views/home_view.dart';
-import 'package:training_project/Features/Presentation/Views/splash_view.dart';
+import '../../Features/Presentation/Views/splash_view.dart';
 
 abstract class AppRouter
 {
@@ -18,10 +18,7 @@ abstract class AppRouter
             {
               return CustomTransitionPage(
                   child: const HomeView(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child)
-                  {
-                    return FadeTransition(opacity: animation, child: child);
-                  }
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child)
               );
             }
         ),

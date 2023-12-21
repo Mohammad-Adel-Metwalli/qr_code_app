@@ -13,14 +13,12 @@ class AppsIcons extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    return CircleAvatar(
-        radius: MediaQuery.sizeOf(context).height * 0.045,
-        backgroundColor: selectedIndex ? ConstantColors.bronze: ConstantColors.babyPowder,
-        child: CircleAvatar(
-          backgroundColor: ConstantColors.babyPowder,
-          radius: MediaQuery.sizeOf(context).height * 0.04,
-          child: appIcon,
-        )
+    return Ink(
+      height: MediaQuery.sizeOf(context).height * 0.2,
+      width: MediaQuery.sizeOf(context).width * 0.2,
+      decoration: BoxDecoration(color: Colors.transparent, border: Border.all(color: selectedIndex ? ConstantColors.redOrange : Colors.transparent, width: 4), shape: BoxShape.circle),
+
+      child: Center(child: appIcon),
     );
   }
 }

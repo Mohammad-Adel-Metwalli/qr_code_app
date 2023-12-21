@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import '../../../../../Core/Utils/constant_colors.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HomeViewBody extends StatefulWidget
 {
@@ -69,15 +68,9 @@ class _HomeViewBodyState extends State<HomeViewBody>
         dirExists = true;
       }
 
-      var status = await Permission.storage.status;
-      await Permission.storage.request();
-
-      if (status.isGranted)
-      {
-        final file = await File('$externalDir/$fileName.png').create();
-        await file.writeAsBytes(pngBytes);
-        await Share.shareFiles([file.path], text: captionText);
-      }
+      final file = await File('$externalDir/$fileName.png').create();
+      await file.writeAsBytes(pngBytes);
+      await Share.shareFiles([file.path], text: captionText);
 
       if (!mounted) return;
       AnimatedSnackBar(
